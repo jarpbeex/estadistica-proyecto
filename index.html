@@ -14,85 +14,110 @@
 
   <header>
     <h1>Proyecto de estadística</h1>
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a href="#" class="navbar navbar-brand" onclick="mostrarSeccion('Inicio')">Inicio</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a href="#" class="nav-link" onclick="mostrarSeccion('tabla-ejemplo')">Ejemplo</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link" onclick="mostrarSeccion('carousel-ejemplo')">Carousel</a>
-            </li>
-            <li>
-              <a href="#" class="nav-link" onclick="mostrarSeccion('Tabla')">Tabla</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
   </header>
 
-  <div class="content">
-    <section class="form-container border text-center" id="Tabla">
-      <img src="/img/collage-fondo-programacion.jpg" width="200" height="auto" alt="imagen-prueba" id="imagen" class="img-fluid">
-    </section>
-
-    <section class="form-container" id="tabla-ejemplo">
-      <div class="card" id="grafica-card">
-        <div class="card-body">
-          <canvas id="myChart"></canvas>
+  <div class="container mt-4">
+    <section class="sect-container" id="Inicio">
+      <div class="input-section pt-4">
+        <input class="form-control" type="number" id="numDatos" placeholder="Número de datos" min="1" max="500">
+        <button class="btn btn-primary mt-2" onclick="generarTabla()">Generar Tabla</button>
+        <div class="input-data mt-3">
+          <table class="table" id="inputTable">
+            <tbody>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
-  
-    <section class="form-container" id="Inicio">
-      <table class="table">
-        <thead>
-          <tr>
-            <th colspan="4" class="text-center">Tabla de Frecuencia</th>
-          </tr>
-          <tr>
-            <th scope="col">LIC</th>
-            <th scope="col">LSC</th>
-            <th scope="col">F</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+
+    <section class="sect-container mt-4">
+      <button class="btn btn-primary" onclick="generarTablaDeFrecuencias()">Calcular y Mostrar Frecuencias</button>
+      <div class="result-data mt-3">
+        <table class="table" id="tablaEstadistica">
+          <thead>
+            <tr>
+              <th>LIC</th>
+              <th>LSC</th>
+              <th>F</th>
+              <th>F Asc</th>
+              <th>F Desc</th>
+              <th>Fr</th>
+              <th>Fr Asc</th>
+              <th>Fr Desc</th>
+              <th>xi</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="sect-container mt-4">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+          <canvas id="histogramChart" width="400" height="200"></canvas>
+        </div>
+        <div class="col-12 col-md-6">
+          <canvas id="frequencyPolygonChart" width="400" height="200"></canvas>
+        </div>
+      </div>
     </section>
   </div>
+
+
+  <!-- <div class="content">
+    <section class="sect-container" id="Inicio">
+      <div class="input-section pt-4">
+        <input class="form-control" type="number" id="numDatos" placeholder="Número de datos" min="1" max="500">
+        <button class="btn btn-primary mt-2" onclick="generarTabla()">Generar Tabla</button>
+        <div class="input-data">
+          <table class="table" id="inputTable">
+            <tbody>
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </section>
+
+    <section class="sect-container">
+      <button class="btn btn-primary" onclick="prueba()">Calcular y Mostrar Frecuencias</button>
+      <div class="result-data">
+        <table class="table" id="tablaEstadistica">
+          <thead>
+            <tr>
+              <th>LIC</th>
+              <th>LSC</th>
+              <th>F</th>
+              <th>F Asc</th>
+              <th>F Desc</th>
+              <th>Fr</th>
+              <th>Fr Asc</th>
+              <th>Fr Desc</th>
+              <th>xi</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="sect-container">
+      <canvas id="histogramChart" width="400" height="200"></canvas>
+      <canvas id="frequencyPolygonChart" width="400" height="200"></canvas>
+    </section>
+  </div> -->
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 
-
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>

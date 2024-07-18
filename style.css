@@ -1,23 +1,24 @@
-.form-container {
+/* style.css */
+/* .sect-container {
     display: none;
-}
+} */
 
 .content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 40vh;
+    height: 100vh;
 }
 
-#Inicio {
+/* #Inicio {
     display: block;
-}
-
-/* #imagen {
-    width: 50%;
 } */
 
-.card {
-    width: 70vh;
-    height: 70vh;
+.sect-container {
+    padding: 20px;
+    border-radius: 5px; /* Opcional: para bordes redondeados */
+}
+.sect-container canvas {
+    width: 100% !important;
+    height: auto !important;
 }
