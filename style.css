@@ -1,0 +1,23 @@
+.form-container {
+    display: none;
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40vh;
+}
+
+#Inicio {
+    display: block;
+}
+
+/* #imagen {
+    width: 50%;
+} */
+
+.card {
+    width: 70vh;
+    height: 70vh;
+}
