@@ -1,3 +1,4 @@
+// script.js
 console.log("Script Cargado.");
 
 function mostrarSeccion(id) {
@@ -34,19 +35,21 @@ new Chart(ctx, {
     }
 });
 
+function generarTabla() {
+    const numDatos = document.getElementById('numDatos').value;
+    const inputTableBody = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+    inputTableBody.innerHTML = '';
 
-
-// aqui
-
-// script.js
-
-// Datos de ejemplo, reemplázalos con tus propios datos
-const data = [
-    { LIC: 1, LSC: 5, F: 10 },
-    { LIC: 6, LSC: 10, F: 15 },
-    { LIC: 11, LSC: 15, F: 5 },
-    { LIC: 16, LSC: 20, F: 20 }
-];
+    for (let i = 0; i < numDatos; i++) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="number" class="form-control" placeholder="LIC"></td>
+            <td><input type="number" class="form-control" placeholder="LSC"></td>
+            <td><input type="number" class="form-control" placeholder="F"></td>
+        `;
+        inputTableBody.appendChild(tr);
+    }
+}
 
 // Función para calcular las frecuencias relativas y las acumuladas
 function calcularFrecuencias(datos) {
@@ -76,19 +79,36 @@ function llenarTabla(datos) {
     datos.forEach(row => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-        <td>${row.LIC}</td>
-        <td>${row.LSC}</td>
-        <td>${row.F}</td>
-        <td>${row.Fr.toFixed(2)}</td>
-        <td>${row.F_asc}</td>
-        <td>${row.F_desc}</td>
-        <td>${row.Fr_asc.toFixed(2)}</td>
-        <td>${row.Fr_desc.toFixed(2)}</td>
-        <td>${(row.LIC + row.LSC) / 2}</td>
+            <td>${row.LIC}</td>
+            <td>${row.LSC}</td>
+            <td>${row.F}</td>
+            <td>${row.Fr.toFixed(2)}</td>
+            <td>${row.F_asc}</td>
+            <td>${row.F_desc}</td>
+            <td>${row.Fr_asc.toFixed(2)}</td>
+            <td>${row.Fr_desc.toFixed(2)}</td>
+            <td>${(row.LIC + row.LSC) / 2}</td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-calcularFrecuencias(data);
-llenarTabla(data);
+function calcularYMostrarFrecuencias() {
+    const inputTableBody = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+    const rows = inputTableBody.getElementsByTagName('tr');
+    const datos = [];
+
+    for (let i = 0; i < rows.length; i++) {
+        const inputs = rows[i].getElementsByTagName('input');
+        const LIC = parseFloat(inputs[0].value);
+        const LSC = parseFloat(inputs[1].value);
+        const F = parseFloat(inputs[2].value);
+
+        if (!isNaN(LIC) && !isNaN(LSC) && !isNaN(F)) {
+            datos.push({ LIC, LSC, F });
+        }
+    }
+
+    calcularFrecuencias(datos);
+    llenarTabla(datos);
+}

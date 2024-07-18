@@ -1,23 +1,33 @@
+/* style.css */
 .form-container {
     display: none;
 }
 
 .content {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 40vh;
+    height: 100vh;
 }
 
 #Inicio {
     display: block;
 }
 
-/* #imagen {
-    width: 50%;
-} */
-
 .card {
     width: 70vh;
     height: 70vh;
+}
+
+.input-section {
+    margin-bottom: 20px;
+}
+
+.input-data, .result-data {
+    width: 100%;
+    margin-top: 20px;
+}
+
+#inputTable, #tablaEstadistica {
+    width: 100%;
 }

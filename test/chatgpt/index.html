@@ -51,24 +51,43 @@
     </section>
   
     <section class="form-container" id="Inicio">
-      <table class="table" id="tablaEstadistica">
-        <thead>
-          <tr>
-            <th scope="col">LIC</th>
-            <th scope="col">LSC</th>
-            <th scope="col">F</th>
-            <th scope="col">Fr</th>
-            <th scope="col">F Asc</th>
-            <th scope="col">F Desc</th>
-            <th scope="col">Fr Asc</th>
-            <th scope="col">Fr Desc</th>
-            <th scope="col">xi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Filas de datos serán añadidas dinámicamente -->
-        </tbody>
-      </table>
+      <div class="input-section">
+        <input type="number" id="numDatos" placeholder="Número de datos" min="1">
+        <button onclick="generarTabla()">Generar Tabla</button>
+      </div>
+      <div class="input-data">
+        <table class="table" id="inputTable">
+          <thead>
+            <tr>
+              <th>LIC</th>
+              <th>LSC</th>
+              <th>F</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+        <button onclick="calcularYMostrarFrecuencias()">Calcular y Mostrar Frecuencias</button>
+      </div>
+      <div class="result-data">
+        <table class="table" id="tablaEstadistica">
+          <thead>
+            <tr>
+              <th>LIC</th>
+              <th>LSC</th>
+              <th>F</th>
+              <th>Fr</th>
+              <th>F Asc</th>
+              <th>F Desc</th>
+              <th>Fr Asc</th>
+              <th>Fr Desc</th>
+              <th>xi</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
     </section>
   </div>
 
