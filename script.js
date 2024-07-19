@@ -86,20 +86,20 @@ function obtenerDatosIngresados() {
 
 // GRAFICAS
 
-function prueba() {
-    const data = [
-        240, 240, 240, 440, 360, 320, 320, 280,
-        440, 360, 320, 320, 360, 440, 320, 280,
-        360, 400, 320, 320, 440, 440, 240, 320,
-        440, 360, 280, 240, 360, 360, 320, 360,
-        280, 320, 280, 320, 320, 320, 320, 240
-    ];
-    generarTablaDeFrecuencias(data);
-}
+// function prueba() {
+//     const data = [
+//         240, 240, 240, 440, 360, 320, 320, 280,
+//         440, 360, 320, 320, 360, 440, 320, 280,
+//         360, 400, 320, 320, 440, 440, 240, 320,
+//         440, 360, 280, 240, 360, 360, 320, 360,
+//         280, 320, 280, 320, 320, 320, 320, 240
+//     ];
+//     generarTablaDeFrecuencias(data);
+// }
 
 
-function generarTablaDeFrecuencias(datossss) {
-    // const datossss = obtenerDatosIngresados();
+function generarTablaDeFrecuencias() {
+    const datossss = obtenerDatosIngresados();
 
     const N = datossss.length;
     const minimo = Math.min(...datossss); // Valor mínimo
@@ -135,7 +135,6 @@ function generarTablaDeFrecuencias(datossss) {
 
         // Frecuencia acumulada\
         Faa = F+Faa;
-
 
         // Frecuencia acumulada descendente
         if (i === 0) {
