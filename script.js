@@ -62,209 +62,216 @@ function generarTabla() {
     }
 }
 
-        let histogramChart = null;
-        let frequencyPolygonChart = null;
+let histogramChart = null;
+let frequencyPolygonChart = null;
 
-        function obtenerDatosIngresados() {
-            const inputTableBody = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
-            const rows = inputTableBody.getElementsByTagName('tr');
-            const datos = [];
+function obtenerDatosIngresados() {
+    const inputTableBody = document.getElementById('inputTable').getElementsByTagName('tbody')[0];
+    const rows = inputTableBody.getElementsByTagName('tr');
+    const datos = [];
 
-            // Iterar sobre cada fila de la tabla
-            for (let i = 0; i < rows.length; i++) {
-                const inputs = rows[i].getElementsByTagName('input');
+    // Iterar sobre cada fila de la tabla
+    for (let i = 0; i < rows.length; i++) {
+        const inputs = rows[i].getElementsByTagName('input');
 
-                // Iterar sobre cada input dentro de la fila actual
-                for (let j = 0; j < inputs.length; j++) {
-                    const valor = parseFloat(inputs[j].value); // Obtener el valor del input como número (puedes usar parseFloat o parseInt según el tipo de dato)
-                    datos.push(valor); // Agregar el valor al array principal de datos
-                }
-            }
-
-            return datos;
+        // Iterar sobre cada input dentro de la fila actual
+        for (let j = 0; j < inputs.length; j++) {
+            const valor = parseFloat(inputs[j].value); // Obtener el valor del input como número (puedes usar parseFloat o parseInt según el tipo de dato)
+            datos.push(valor); // Agregar el valor al array principal de datos
         }
+    }
 
-        
-        function datos() {
-            const datossss = [
-                240, 240, 240, 440, 360, 320, 320, 280,
-                440, 360, 320, 320, 360, 440, 320, 280,
-                360, 400, 320, 320, 440, 440, 240, 320,
-                440, 360, 280, 240, 360, 360, 320, 360,
-                280, 320, 280, 320, 320, 320, 320, 240
-            ];
-            generarTablaDeFrecuencias(datossss);
+    return datos;
+}
+
+// GRAFICAS
+
+function prueba() {
+    const data = [
+        240, 240, 240, 440, 360, 320, 320, 280,
+        440, 360, 320, 320, 360, 440, 320, 280,
+        360, 400, 320, 320, 440, 440, 240, 320,
+        440, 360, 280, 240, 360, 360, 320, 360,
+        280, 320, 280, 320, 320, 320, 320, 240
+    ];
+    generarTablaDeFrecuencias(data);
+}
+
+
+function generarTablaDeFrecuencias(datossss) {
+    // const datossss = obtenerDatosIngresados();
+
+    const N = datossss.length;
+    const minimo = Math.min(...datossss); // Valor mínimo
+    const maximo = Math.max(...datossss); // Valor máximo
+    const rango = maximo - minimo;
+    const k = (1 + 3.33 * Math.log10(N)).toFixed(4);
+    const TIC = parseFloat((rango / k).toFixed(4));
+
+    const limitesClasesF = [];
+    let Faa = 0;
+    let Fad = N;
+
+    let Fra = 0;
+    let Frd = N;
+
+    // salidas
+    // console.log('N: ' + datossss.length)
+    // console.log('Min: ' + minimo)
+    // console.log('Max: ' + maximo)
+    // console.log('Rango: ' + rango)
+    // console.log('k: ' + k)
+    // console.log('TIC: ' + TIC)
+    // console.log('Redondeado: ' + TIC.toFixed())
+
+    arrayfad = [];
+
+    for (let i = 0; i <= k; i++) {
+        const LIC = minimo + i * TIC.toFixed();
+        const LSC = minimo + (i + 1) * TIC.toFixed();
+
+        // Contar frecuencia de datos que caen en el intervalo [limiteInferior, limiteSuperior)
+        const F = datossss.filter(dato => dato >= LIC && dato < LSC).length;
+
+        // Frecuencia acumulada\
+        Faa = F+Faa;
+
+
+        // Frecuencia acumulada descendente
+        if (i === 0) {
+            Fad = N;
+        } else {
+            Fad = Fad-arrayfad[i-1];
         }
+        arrayfad.push(F);
 
-        function generarTablaDeFrecuencias(datossss) {
-            // const datossss = obtenerDatosIngresados();
 
-            const N = datossss.length;
-            const minimo = Math.min(...datossss); // Valor mínimo
-            const maximo = Math.max(...datossss); // Valor máximo
-            const rango = maximo - minimo;
-            const k = (1 + 3.33 * Math.log10(N)).toFixed(4);
-            const TIC = parseFloat((rango / k).toFixed(4));
+        const Fr = F/N;
+        Fra = Fr+Fra;
 
-            const limitesClasesF = [];
-            let Faa = 0;
-            let Fad = N;
-
-            let Fra = 0;
-            let Frd = N;
-
-            // salidas
-            console.log('N: ' + datossss.length)
-            console.log('Min: ' + minimo)
-            console.log('Max: ' + maximo)
-            console.log('Rango: ' + rango)
-            console.log('k: ' + k)
-            console.log('TIC: ' + TIC)
-            console.log('Redondeado: ' + TIC.toFixed())
-
-            for (let i = 0; i <= k; i++) {
-                const LIC = minimo + i * TIC.toFixed();
-                const LSC = minimo + (i + 1) * TIC.toFixed();
-        
-                // Contar frecuencia de datos que caen en el intervalo [limiteInferior, limiteSuperior)
-                const F = datossss.filter(dato => dato >= LIC && dato < LSC).length;
-        
-                // Frecuencia acumulada\
-                Faa = F+Faa;
-        
-                // Frecuencia acumulada descendente
-                if (i<1) {
-                    Fad = N;
-                } else {
-                    Fad = Fad-F;
-                }
-        
-                const Fr = F/N;
-                Fra = Fr+Fra;
-        
-                if (i<1) {
-                    Frd = 1;
-                } else {
-                    Frd = Frd-Fr;
-                }
-                const xi = (LIC+LSC)/2;
-
-                limitesClasesF.push({ LIC, LSC, F, Faa, Fad, Fr, Fra, Frd, xi });
-            }
-
-            const tbody = document.querySelector('#tablaEstadistica tbody');
-            tbody.innerHTML = '';
-
-            limitesClasesF.forEach(row => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${row.LIC}</td>
-                    <td>${row.LSC}</td>
-                    <td>${row.F}</td>
-                    <td>${row.Faa}</td>
-                    <td>${row.Fad}</td>
-                    <td>${row.Fr.toFixed(3)}</td>
-                    <td>${row.Fra.toFixed(3)}</td>
-                    <td>${row.Frd.toFixed(3)}</td>
-                    <td>${row.xi}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            generarHistograma(limitesClasesF);
-            generarPoligonoDeFrecuencia(limitesClasesF);
+        if (i<1) {
+            Frd = 1;
+        } else {
+            Frd = Frd-Fr;
         }
+        const xi = (LIC+LSC)/2;
 
-        function generarHistograma(limitesClasesF) {
-            const ctx = document.getElementById('histogramChart').getContext('2d');
-            if (histogramChart) {
-                histogramChart.destroy();
-            }
+        limitesClasesF.push({ LIC, LSC, F, Faa, Fad, Fr, Fra, Frd, xi });
+    }
 
-            const labels = limitesClasesF.map(row => `${row.LIC}`);
-            const data = limitesClasesF.map(row => row.F);
+    const tbody = document.querySelector('#tablaEstadistica tbody');
+    tbody.innerHTML = '';
 
-            histogramChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Frecuencia',
-                        data: data,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Histograma'
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Limites de Clase'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Frecuencia'
-                            },
-                            beginAtZero: true
-                        }
+    limitesClasesF.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row.LIC}</td>
+            <td>${row.LSC}</td>
+            <td>${row.F}</td>
+            <td>${row.Faa}</td>
+            <td>${row.Fad}</td>
+            <td>${row.Fr.toFixed(3)}</td>
+            <td>${row.Fra.toFixed(3)}</td>
+            <td>${row.Frd.toFixed(3)}</td>
+            <td>${row.xi}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    generarHistograma(limitesClasesF);
+    generarPoligonoDeFrecuencia(limitesClasesF);
+}
+
+function generarHistograma(limitesClasesF) {
+    const ctx = document.getElementById('histogramChart').getContext('2d');
+    if (histogramChart) {
+        histogramChart.destroy();
+    }
+
+    const labels = limitesClasesF.map(row => `${row.LIC}`);
+    const data = limitesClasesF.map(row => row.F);
+
+    histogramChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Frecuencia',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Histograma'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Limites de Clase'
                     }
-                }
-            });
-        }
-
-        function generarPoligonoDeFrecuencia(limitesClasesF) {
-            const ctx = document.getElementById('frequencyPolygonChart').getContext('2d');
-            if (frequencyPolygonChart) {
-                frequencyPolygonChart.destroy();
-            }
-
-            const labels = [0, ...limitesClasesF.map(row => `${row.xi}`), 0];
-            const data = [0, ...limitesClasesF.map(row => row.F), 0];
-
-            frequencyPolygonChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Frecuencia',
-                        data: data,
-                        fill: false,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        tension: 0.1
-                    }]
                 },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Poligono de Frecuencia'
-                        }
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Frecuencia'
                     },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'xi'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Frecuencia'
-                            },
-                            beginAtZero: true
-                        }
-                    }
+                    beginAtZero: true
                 }
-            });
+            }
         }
+    });
+}
+
+function generarPoligonoDeFrecuencia(limitesClasesF) {
+    const ctx = document.getElementById('frequencyPolygonChart').getContext('2d');
+    if (frequencyPolygonChart) {
+        frequencyPolygonChart.destroy();
+    }
+
+    const labels = [0, ...limitesClasesF.map(row => `${row.xi}`), 0];
+    const data = [0, ...limitesClasesF.map(row => row.F), 0];
+
+    frequencyPolygonChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Frecuencia',
+                data: data,
+                fill: false,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Poligono de Frecuencia'
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'xi'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Frecuencia'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
