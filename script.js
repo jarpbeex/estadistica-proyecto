@@ -86,26 +86,38 @@ function obtenerDatosIngresados() {
 
 // GRAFICAS
 
-// function prueba() {
-//     const data = [
-//         240, 240, 240, 440, 360, 320, 320, 280,
-//         440, 360, 320, 320, 360, 440, 320, 280,
-//         360, 400, 320, 320, 440, 440, 240, 320,
-//         440, 360, 280, 240, 360, 360, 320, 360,
-//         280, 320, 280, 320, 320, 320, 320, 240
-//     ];
-//     generarTablaDeFrecuencias(data);
-// }
+function prueba() {
+    // const data = [
+    //     240, 240, 240, 440, 360, 320, 320, 280,
+    //     440, 360, 320, 320, 360, 440, 320, 280,
+    //     360, 400, 320, 320, 440, 440, 240, 320,
+    //     440, 360, 280, 240, 360, 360, 320, 360,
+    //     280, 320, 280, 320, 320, 320, 320, 240
+    // ];
+    const data = [
+        250, 170, 190, 127, 129, 90, 150,
+        160, 114, 152, 142, 154, 210, 210,
+        190, 140, 110, 120, 160, 115, 156,
+        175, 145, 165, 117, 113, 240, 143,
+        220, 180, 200, 190, 150, 177, 110
+    ];
+    generarTablaDeFrecuencias(data);
+}
 
 
-function generarTablaDeFrecuencias() {
-    const datossss = obtenerDatosIngresados();
+function generarTablaDeFrecuencias(data) {
+    // const datossss = obtenerDatosIngresados();
 
-    const N = datossss.length;
-    const minimo = Math.min(...datossss); // Valor mínimo
-    const maximo = Math.max(...datossss); // Valor máximo
+    // const N = datossss.length;
+    const N = data.length;
+    // const minimo = Math.min(...datossss); // Valor mínimo
+    // const maximo = Math.max(...datossss); // Valor máximo
+    
+    const minimo = Math.min(...data); // Valor mínimo
+    const maximo = Math.max(...data); // Valor máximo
     const rango = maximo - minimo;
     const k = (1 + 3.33 * Math.log10(N)).toFixed(4);
+    console.log('k: ' + k)
     const TIC = parseFloat((rango / k).toFixed(4));
 
     const limitesClasesF = [];
@@ -117,21 +129,24 @@ function generarTablaDeFrecuencias() {
 
     // salidas
     // console.log('N: ' + datossss.length)
-    // console.log('Min: ' + minimo)
-    // console.log('Max: ' + maximo)
-    // console.log('Rango: ' + rango)
+    console.log('N: ' + data.length)
+    console.log('Min: ' + minimo)
+    console.log('Max: ' + maximo)
+    console.log('Rango: ' + rango)
     // console.log('k: ' + k)
-    // console.log('TIC: ' + TIC)
-    // console.log('Redondeado: ' + TIC.toFixed())
+    console.log(k);
+    console.log('TIC: ' + TIC)
+    const RTIC = Math.ceil(TIC);
+    console.log('Redondeado: ' + RTIC)
 
     arrayfad = [];
 
     for (let i = 0; i <= k; i++) {
-        const LIC = minimo + i * TIC.toFixed();
-        const LSC = minimo + (i + 1) * TIC.toFixed();
+        const LIC = minimo + i * RTIC;
+        const LSC = minimo + (i + 1) * RTIC;
 
         // Contar frecuencia de datos que caen en el intervalo [limiteInferior, limiteSuperior)
-        const F = datossss.filter(dato => dato >= LIC && dato < LSC).length;
+        const F = data.filter(dato => dato >= LIC && dato < LSC).length;
 
         // Frecuencia acumulada\
         Faa = F+Faa;
