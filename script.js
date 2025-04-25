@@ -85,7 +85,6 @@ function obtenerDatosIngresados() {
 }
 
 // GRAFICAS
-
 function prueba() {
     // const data = [
     //     240, 240, 240, 440, 360, 320, 320, 280,
@@ -94,13 +93,39 @@ function prueba() {
     //     440, 360, 280, 240, 360, 360, 320, 360,
     //     280, 320, 280, 320, 320, 320, 320, 240
     // ];
+
+    // const data = [
+    //     250, 170, 190, 127, 129, 90, 150,
+    //     160, 114, 152, 142, 154, 210, 210,
+    //     190, 140, 110, 120, 160, 115, 156,
+    //     175, 145, 165, 117, 113, 240, 143,
+    //     220, 180, 200, 190, 150, 177, 110
+    // ];
+
     const data = [
-        250, 170, 190, 127, 129, 90, 150,
-        160, 114, 152, 142, 154, 210, 210,
-        190, 140, 110, 120, 160, 115, 156,
-        175, 145, 165, 117, 113, 240, 143,
-        220, 180, 200, 190, 150, 177, 110
-    ];
+        61,  134, 64,  45,  79,  85,  97,  140,
+        119, 98,  36,  79,  88,  115, 102, 36,
+        99,  88,  44,  118, 82,  80,  114, 120,
+        52,  52,  86,  103, 112, 55,  100, 96,
+        140, 101, 93,  74,  112, 112, 64,  60,
+        35,  82,  86,  99,  66,  73,  41,  56,
+        119, 98,  108, 33,  95,  61,  98,  87,
+        50,  75,  114, 30,  33,  80,  85,  57,
+        64,  90,  32,  84,  49,  95,  55,  75,
+        105, 34,  35,  30,  115, 44,  79,  51,
+        62,  117, 119, 77,  79,  44,  54,  82,
+        117, 60,  86,  78,  32,  49,  63,  38,
+        81,  66,  94,  31,  77,  32,  52,  69,
+        61,  97,  54,  36,  87,  34,  112, 105,
+        89,  39,  95,  48,  90,  39,     120, 30,
+        92,  58,  102, 99,  46,  113, 94,  90,
+        80,  94,  36,  71,  63,  45,  40,  62,
+        74,  32,  107, 49,  45,  86,  114, 49,
+        63,  39,  53,  39,  76,  125, 104, 64,
+        60,  77,  47,  45,  105, 77,  76,  79,
+        45,  78,  98,  112, 140, 38,  91,  98
+    ]
+
     generarTablaDeFrecuencias(data);
 }
 
@@ -117,36 +142,48 @@ function generarTablaDeFrecuencias(data) {
     const maximo = Math.max(...data); // Valor máximo
     const rango = maximo - minimo;
     const k = (1 + 3.33 * Math.log10(N)).toFixed(4);
-    console.log('k: ' + k)
     const TIC = parseFloat((rango / k).toFixed(4));
-
+    const RTIC = Math.ceil(TIC);
     const limitesClasesF = [];
     let Faa = 0;
     let Fad = N;
 
     let Fra = 0;
-    let Frd = N;
+    let Frd = 1;
 
-    // salidas
-    // console.log('N: ' + datossss.length)
-    console.log('N: ' + data.length)
-    console.log('Min: ' + minimo)
-    console.log('Max: ' + maximo)
-    console.log('Rango: ' + rango)
+    // // salidas
+    // console.log('N: ' + data.length)
+    // console.log('N: ' + data.length)
+    // console.log('Min: ' + minimo)
+    // console.log('Max: ' + maximo)
+    // console.log('Rango: ' + rango)
     // console.log('k: ' + k)
-    console.log(k);
-    console.log('TIC: ' + TIC)
-    const RTIC = Math.ceil(TIC);
-    console.log('Redondeado: ' + RTIC)
+    // console.log('TIC: ' + TIC)
+    // console.log('Redondeado: ' + RTIC)
 
-    arrayfad = [];
+    console.log(data.filter(dato => dato == 142).length);
 
-    for (let i = 0; i <= k; i++) {
+    let arrayfad = [];
+    let FrAnterior = 0;
+
+    for (let i = 0; i < Math.floor(k); i++) {
         const LIC = minimo + i * RTIC;
         const LSC = minimo + (i + 1) * RTIC;
 
         // Contar frecuencia de datos que caen en el intervalo [limiteInferior, limiteSuperior)
-        const F = data.filter(dato => dato >= LIC && dato < LSC).length;
+        // const F = data.filter(dato => dato >= LIC && dato < LSC).length;
+
+        let F = 0;
+
+        if (i === Math.floor(k) - 1) {
+            // Último intervalo: [LIC, LSC] → incluye el LSC
+            F = data.filter(dato => dato >= LIC && dato <= LSC).length;
+        } else {
+            // Intervalo normal: [LIC, LSC) → excluye el LSC
+            F = data.filter(dato => dato >= LIC && dato < LSC).length;
+        }
+
+
 
         // Frecuencia acumulada\
         Faa = F+Faa;
@@ -163,14 +200,23 @@ function generarTablaDeFrecuencias(data) {
         const Fr = F/N;
         Fra = Fr+Fra;
 
+        
+        
         if (i<1) {
             Frd = 1;
         } else {
-            Frd = Frd-Fr;
+            Frd = Frd - FrAnterior;
         }
+
+        // Actualizamos el valor de FrAnterior para la siguiente iteración
+        FrAnterior = Fr;
+        
         const xi = (LIC+LSC)/2;
 
+        
+
         limitesClasesF.push({ LIC, LSC, F, Faa, Fad, Fr, Fra, Frd, xi });
+        // console.log(limitesClasesF);
     }
 
     const tbody = document.querySelector('#tablaEstadistica tbody');
